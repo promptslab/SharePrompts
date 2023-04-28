@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name         SharePrompt
-// @namespace    http://localhost:3000
+// @namespace    https://shareprompts.ai
 // @version      0.1
 // @description  Easily share prompts
 // @author       shareprompts.ai
 // @match        https://chat.openai.com/chat*
-// @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+// @icon         
 // @grant        none
-// @require  
+// @require      https://raw.githubusercontent.com/promptslab/SharePrompts/main/extension/index.js?token=GHSAT0AAAAAACBZAADMYTX4GMW7FX3LJ37EZCMORYA
 // ==/UserScript==

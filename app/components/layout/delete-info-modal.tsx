@@ -36,7 +36,7 @@ export default function DeleteInfoModal({
         <motion.div
           ref={desktopModalRef}
           key="delete-modal"
-          className="fixed inset-0 z-10 min-h-screen items-center justify-center flex"
+          className="fixed inset-0 z-10 min-h-screen flex items-center justify-center"
           initial={{ scale: 0.95 }}
           animate={{ scale: 1 }}
           exit={{ scale: 0.95 }}
@@ -73,14 +73,14 @@ export default function DeleteInfoModal({
             <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
               <button
                 type="button"
-                className="inline-flex w-full justify-center rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white hover:text-black transition-all border border-black sm:ml-3 sm:w-auto"
+                className="inline-flex w-full justify-center rounded-md bg-black px-3 py-2 text-sm font-semibold bg-primary text-white shadow-sm hover:bg-accent transition-all border border-black sm:ml-3 sm:w-auto"
                 onClick={() => setShowModal(false)}
               >
                 Okay, got it!
               </button>
               <button
                 type="button"
-                className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-black transition-all sm:mt-0 sm:w-auto"
+                className="mt-3 inline-flex w-full justify-center rounded-md bg-primary text-white hover:bg-accent px-3 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-black transition-all sm:mt-0 sm:w-auto"
                 onClick={() => {
                   Cookies.set("dismissedDeleteButtonModal", "true");
                   setShowModal(false);

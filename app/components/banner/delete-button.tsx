@@ -44,8 +44,9 @@ export default function DeleteButton() {
 
   useEffect(() => {
     if (!Cookies.get("dismissedDeleteButtonModal") && ttl > 0) {
-      ref?.current?.focus();
-      setShowModal(true);
+      setTimeout(() => {
+        setShowModal(true);
+      }, 1000)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
