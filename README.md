@@ -1,2 +1,1 @@
-# PromptShare
-Plugin to share prompts
+# SharePrompts
