@@ -61,9 +61,9 @@ export default function DeleteInfoModal({
                   </h3>
                   <div className="mt-2">
                     <p className="text-sm text-gray-500">
-                      SharePrompts convos are public by default accessible
+                      SharePrompts prompt are public by default accessible
                       by a direct link and on home page. Making it private will not show on home page <br /> <br /> If you still want to
-                      delete this conversation, or make it private or public you can do so within the next 60
+                      delete this prompt, or make it private or public you can do so within the next 60
                       seconds.
                     </p>
                   </div>

@@ -64,9 +64,7 @@ export default function DeleteButton() {
                 });
                 router.push("/");
               }
-              catch(e){
-                console.log(e);
-              }
+              catch(e){}
             }}
             disabled={submitting}
             className={`${

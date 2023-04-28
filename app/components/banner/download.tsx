@@ -1,13 +1,5 @@
-import { useCallback, useState, useRef, useEffect } from "react";
-import { PDFDownloadLink } from "@react-pdf/renderer"
-import GneratePdf from "../GeneratePdf"
+import { useCallback, useState } from "react";
 import { Download, Loader } from "lucide-react"
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-  } from "@/components/shared/tooltip";
 import ReactToPrint from "react-to-print";
 import { LoadingCircle } from "../shared/icons";
 

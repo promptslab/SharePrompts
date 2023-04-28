@@ -150,14 +150,14 @@ export default function ChatPage({
           </div>
         ))}
          <div className="h-[100px] bg-gray-50 flex flex-col items-center justify-center w-full">
-          <Link
+          <a
             className="text-blue hover:bg-accent hover:text-white p-2 rounded-md"
             rel="noopener noreferrer"
             target="_blank"
             href=" https://github.com/promptslab/SharePrompts"
           >
-            <div><span>View source on GitHub</span></div>
-          </Link>
+            <div>View source on GitHub</div>
+          </a>
         </div>
       </div>
       <Banner views={view || 0} content={items} title={formatTitle(title)} componentRef={componentToPrintRef} />
