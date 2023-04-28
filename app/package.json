@@ -18,6 +18,7 @@
     "@radix-ui/react-hover-card": "^1.0.2",
     "@radix-ui/react-popover": "^1.0.2",
     "@radix-ui/react-tooltip": "^1.0.5",
+    "@radix-ui/react-switch": "^1.0.2",
     "@react-pdf/renderer": "^3.1.9",
     "@splinetool/react-spline": "^2.2.3",
     "@splinetool/runtime": "^0.9.149",
