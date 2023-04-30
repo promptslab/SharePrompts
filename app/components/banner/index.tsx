@@ -1,5 +1,3 @@
-import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { fetcher } from "@/lib/utils";
 import useSWR from "swr";
@@ -10,10 +8,15 @@ import DeleteButton from "./delete-button";
 import ViewCounter from "./view-counter";
 import DownloadButton from "./download";
 import AccessControlButton from "./access-control-button";
+import * as HoverCard from '@radix-ui/react-hover-card';
+import { Download } from "lucide-react";
+import { useState } from "react";
 
 export default function Banner({ views, content, title, componentRef }: { views: number, content: any, title: any, componentRef: any }) {
   const router = useRouter();
   const { id } = router.query as { id: string };
+
+  const [openDownloadModal, setDownloadModal] = useState<boolean>(false);
 
   const { data: { ttl } = {} } = useSWR<{
     ttl: number;
@@ -29,24 +32,34 @@ export default function Banner({ views, content, title, componentRef }: { views:
           exit={{ opacity: 0, y: 100 }}
         >
           <div className="flex lg:flex-col lg:justify-center lg:items-center gap-2">
-            <div className="bg-white text-primary w-[50px] rounded-lg">
+            <div className="bg-white text-primary flex items-center justify-center w-[55px] h-[55px] rounded-lg">
               <CopyButton />
             </div>
-            <div className="bg-white text-primary w-[50px] rounded-lg">
+            <div className="bg-white text-primary flex items-center justify-center w-[55px] h-[55px] rounded-lg">
               <SaveButton id={id} />
             </div>
             {
               ttl > 0 &&
-            <div className="bg-white text-primary w-[50px] rounded-lg">
+            <div className="bg-white text-primary flex items-center justify-center w-[55px] h-[55px] rounded-lg">
               <DeleteButton />
             </div>
             }
-            <div className="bg-white text-primary w-[50px] rounded-lg">
+            <div className="bg-white text-primary flex items-center justify-center w-[55px] h-[55px] rounded-lg">
               <ViewCounter views={views} />
             </div>
-            <div className="bg-white text-primary w-[50px] rounded-lg">
-              <DownloadButton title={title} componentRef={componentRef} />
-            </div>
+            <HoverCard.Root openDelay={0} open={openDownloadModal} onOpenChange={(status) => {setDownloadModal(status)}}>
+              <HoverCard.Trigger asChild>
+                <div onClick={() => {setDownloadModal(prev => !prev)}} className="bg-white text-primary flex items-center justify-center w-[55px] h-[55px] rounded-lg">
+                  <Download />
+                </div>
+              </HoverCard.Trigger>
+              <HoverCard.Portal>
+                <HoverCard.Content className="HoverCardContent z-10"  sideOffset={5}>
+                  <DownloadButton title={title} componentRef={componentRef} />
+                  <HoverCard.Arrow className="HoverCardArrow fill-white" width={20} height={10} />
+                </HoverCard.Content>
+              </HoverCard.Portal>
+            </HoverCard.Root>
             {
               ttl > 0 &&
               <div className="bg-white text-primary rounded-lg lg:bg-transparent lg:text-white flex items-center justify-center">

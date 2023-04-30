@@ -3,7 +3,6 @@ import "../styles/highlight.css";
 import type { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
-import { Analytics } from "@vercel/analytics/react";
 import cx from "classnames";
 import { Inter } from "@next/font/google";
 import localFont from "@next/font/local";
@@ -29,7 +28,6 @@ function MyApp({
     <SessionProvider session={session}>
       <main className={cx(inter.variable, satoshi.variable)}>
         <Component {...pageProps} />
-        <Analytics />
       </main>
     </SessionProvider>
   );
