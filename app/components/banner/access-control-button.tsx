@@ -1,15 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Lock, Unlock } from 'lucide-react';
-import { fetcher, nFormatter } from "@/lib/utils";
-import useSWR, { mutate } from "swr";
-import { LoadingCircle } from "@/components/shared/icons";
-import { useSignInModal } from "@/components/layout/sign-in-modal";
-import { useSession } from "next-auth/react";
-import { Bookmark } from "lucide-react";
+import { fetcher } from "@/lib/utils";
+import useSWR from "swr";
+import { LoadingCircle } from "@/components/shared/icons";;
 import { useRef } from "react";
 import useIntersectionObserver from "@/lib/hooks/use-intersection-observer";
 import { toast } from "react-hot-toast";
-import Link from "next/link";
 import {
   Tooltip,
   TooltipContent,

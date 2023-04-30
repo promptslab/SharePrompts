@@ -1,6 +1,7 @@
 export interface ConversationProps {
   id: string;
   model?: string;
+  title?: string;
   content: {
     title?: string;
     avatarUrl: string;

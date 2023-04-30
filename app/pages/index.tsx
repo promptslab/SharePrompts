@@ -8,6 +8,7 @@ import { getConvos } from "@/lib/api";
 import { useCallback, useEffect, useState } from "react";
 import Discord from "@/components/shared/icons/discord";
 import useDebounce from "@/lib/hooks/use-debounce";
+import { Search } from "lucide-react";
 
 export default function Home({
   totalConvos,
@@ -61,7 +62,7 @@ export default function Home({
               <p className="max-w-lg text-gray-600 transition-colors sm:text-lg">
                 Share your Prompts with one click.
                 <br />
-                <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
+                <span className="font-bold text-blue">
                   {Intl.NumberFormat("en-us").format(totalConvos)}
                 </span>{" "}
                 Prompts shared so far.
@@ -90,7 +91,10 @@ export default function Home({
                 Browse Prompts
               </h2>
               <div className="flex items-center justify-center">
-                <input placeholder="Search the prompt" value={inpValue} onChange={(e) => {setInpValue(e.target.value)}} className="border-0 self-center p-2 mt-4 mx-auto outline-none bg-secondary-2 rounded-md h-[40px] w-9/12" />
+                <div className="border-0 flex items-center px-4 py-2 mt-4 mx-auto outline-none gap-2 bg-secondary-2 hover:bg-secondary-1 h-[50px] rounded-full lg:w-[550px] w-9/12">
+                  <Search />
+                  <input className="h-full outline-none flex-1 bg-transparent" value={inpValue} onChange={(e) => {setInpValue(e.target.value)}}  />
+                </div>
               </div>
               <ul className="mt-8 grid gap-2">
                 {convo.map((convo) => (
@@ -100,14 +104,14 @@ export default function Home({
             </div>
           </div>
           <div className="h-[100px] bg-gray-50 flex flex-col items-center justify-center w-full">
-            <Link
+            <a
               className="text-blue hover:bg-accent hover:text-white p-2 rounded-md"
               rel="noopener noreferrer"
               target="_blank"
               href=" https://github.com/promptslab/SharePrompts"
             >
               <div className="flex items-center gap-2"><span>View source on </span><Image src='/github.svg' alt="github logo" width={20} height={20} /><span>GitHub</span></div>
-            </Link>
+            </a>
           </div>
         </Layout>
 

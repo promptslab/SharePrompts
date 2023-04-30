@@ -140,6 +140,7 @@ async function setRandomKey(
       ? truncate(content?.items[0]?.value, 180)
       : "Untitled";
   }
+  title = title.replace(/^New chat$/, 'New Prompt');
 
   const avatar = content?.avatarUrl || `https://avatar.vercel.sh/${id}`;
   try {
@@ -154,6 +155,7 @@ async function setRandomKey(
     await redis.set(`delete:${id}`, 1, {
       ex: 60,
     });
+    
     return { id };
   } catch (e: any) {
     if (e.code === "P2002") {

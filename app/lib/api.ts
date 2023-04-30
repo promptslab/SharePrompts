@@ -67,6 +67,7 @@ export async function getConvo(id: string) {
       id: true,
       content: true,
       views: true,
+      title: true,
       comments: {
         select: {
           id: true,
