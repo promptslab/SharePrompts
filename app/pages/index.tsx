@@ -71,7 +71,7 @@ export default function Home({
                 <div className="flex justify-center items-center mb-3 sm:mr-3 sm:mb-0 rounded-lg bg-accent text-white shadow-md">
                   <a
                     className="hidden md:flex space-x-3 justify-center items-center px-5 py-3 font-medium md:hover:bg-indigo-600 transition-all rounded-l-lg"
-                    href="#"
+                    href="/extension"
                     target="_blank"
                     rel="noopener noreferrer"
                   >

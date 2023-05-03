@@ -97,7 +97,7 @@ const nextConfig = {
       {
         source: "/extension",
         destination:
-          "#",
+          "https://chrome.google.com/webstore/detail/shareprompts-share-your-c/nlgbjclibljpehlmcaeffhaijakaahce",
         permanent: false,
       },
       {
