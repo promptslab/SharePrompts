@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { unstable_getServerSession } from "next-auth/next";
+import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 export interface Session {
@@ -10,9 +10,9 @@ export interface Session {
   };
 }
 
-export async function getServerSession(
+export async function getSessionFromServer(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  return (await unstable_getServerSession(req, res, authOptions)) as Session;
+  return (await getServerSession(req, res, authOptions)) as Session;
 }

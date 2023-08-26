@@ -27,8 +27,8 @@ export default function Layout({
     <div>
       <Meta {...meta} />
       <SignInModal />
-      <div className="w-full absolute top-0">
-        <div className="max-w-screen-xl mx-5 xl:mx-auto flex justify-between items-center h-16">
+      <div className="w-full absolute top-0 mx-4">
+        <div className="mx-5 flex justify-between items-center h-16">
           <Link
             href="/"
             className="flex items-center font-display font-bold text-xl"

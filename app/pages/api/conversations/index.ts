@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getServerSession } from "@/lib/auth";
+import { getSessionFromServer } from "@/lib/auth";
 import { getConvos } from "@/lib/api";
 import { ratelimit, redis } from "@/lib/upstash";
 import sanitizeHtml from "sanitize-html";
@@ -105,11 +105,11 @@ export default async function handler(
     // POST /api/conversations (for saving conversations)
   } else if (req.method === "POST") {
     try {
-      const { success } = await ratelimit.limit("sshareprompt-save-endpoint");
+      const { success } = await ratelimit.limit("shareprompt-save-endpoint");
       if (!success) {
         return res.status(429).json({ error: "Don't DDoS me pls 🥺" });
       }
-      const session = await getServerSession(req, res);
+      const session = await getSessionFromServer(req, res);
       console.log("session data: ", session);
       const content = JSON.parse(JSON.stringify(req.body));
       for (let i = 0; i < content.items.length; i++) {

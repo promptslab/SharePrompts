@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
-import { unstable_getServerSession } from "next-auth/next";
+import { getServerSession } from "next-auth/next";
 import { authOptions } from "pages/api/auth/[...nextauth]";
 import { Session } from "@/lib/types";
 import { highstorm } from "@/lib/highstorm";
@@ -10,7 +10,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const { id } = req.query as { id: string };
-  const session = (await unstable_getServerSession(
+  const session = (await getServerSession(
     req,
     res,
     authOptions
