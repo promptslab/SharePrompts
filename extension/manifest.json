@@ -1,7 +1,7 @@
 {
   "name": "SharePrompts: Share your ChatGPT Prompts",
   "description": "SharePrompts is a Chrome extension that allows you to share your prompts with one click",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "manifest_version": 3,
   "icons": {
     "16": "assets/icons/icon16.png",
