@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
 import { getComments } from "@/lib/api";
 import { nanoid } from "@/lib/utils";
-import { getServerSession } from "@/lib/auth";
+import { getSessionFromServer } from "@/lib/auth";
 
 export default async function handler(
   req: NextApiRequest,
@@ -19,7 +19,7 @@ export default async function handler(
       res.status(400).json({ error: "Bad request" });
       return;
     }
-    const session = await getServerSession(req, res);
+    const session = await getSessionFromServer(req, res);
     if (!session?.user?.id) {
       res
         .status(401)
