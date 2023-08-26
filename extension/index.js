@@ -1,21 +1,26 @@
 let isRequesting = false;
 
-const API_URL = "";
-const PAGE_URL = "";
+// const API_URL = "http://localhost:3000/api/conversations";
+// const PAGE_URL = "http://localhost:3000/share/";
+const API_URL = "https://shareprompts.ai/api/conversations";
+const PAGE_URL = "https://shareprompts.ai/share/";
 
 function init() {
   const shareButton = createBtn();
 
   function appendShareButton() {
-    const buttonsWrapper = document.querySelector(
-      "#__next main form > div div:nth-of-type(1) > div"
-    );
-
-    // if(! buttonsWrapper) return;
-
-    console.log(buttonsWrapper);
-
-    buttonsWrapper.appendChild(shareButton);
+    try{
+      const buttonsWrapper = document.querySelector(
+        "#__next main form > div div:nth-of-type(1) > div"
+      );
+  
+      // if(! buttonsWrapper) return;
+  
+      console.log(buttonsWrapper);
+  
+      buttonsWrapper.appendChild(shareButton);
+    }
+    catch{}
   }
 
   appendShareButton();
@@ -41,11 +46,13 @@ function init() {
     shareButton.style.cursor = "initial";
 
     const threadContainer = document.getElementsByClassName(
-      "flex flex-col items-center text-sm dark:bg-gray-800"
+      "flex flex-col text-sm dark:bg-gray-800"
     )[0];
 
     // show the model for chatgpt+ users
     let model;
+
+    console.log(threadContainer)
 
     const chatGptPlusElement = document.querySelector(".gold-new-button");
     const isNotChatGptPlus =
@@ -118,7 +125,7 @@ function getAvatarImage() {
   try {
     const canvas = document.createElement("canvas");
 
-    const image = document.querySelectorAll("img")[1];
+    const image = document.querySelectorAll("img")[0];
 
     // Set the canvas size to 30x30 pixels
     canvas.width = 30;
