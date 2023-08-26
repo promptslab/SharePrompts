@@ -4,7 +4,6 @@ fetch(`${BASE_URL}/api/auth/csrf`, {
   mode: 'no-cors'
 }).then(async (res) => {
   try{
-    console.log(res)
     const json = await res.json();
     const csrf = json.csrfToken;
     document.querySelector("#csrfToken-google").value = csrf;

@@ -15,9 +15,7 @@ function init() {
       );
   
       // if(! buttonsWrapper) return;
-  
-      console.log(buttonsWrapper);
-  
+    
       buttonsWrapper.appendChild(shareButton);
     }
     catch{}
@@ -51,8 +49,6 @@ function init() {
 
     // show the model for chatgpt+ users
     let model;
-
-    console.log(threadContainer)
 
     const chatGptPlusElement = document.querySelector(".gold-new-button");
     const isNotChatGptPlus =
