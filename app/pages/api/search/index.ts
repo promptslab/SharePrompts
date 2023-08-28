@@ -7,15 +7,18 @@ export default async function handler(
     res: NextApiResponse
 ) {
     if (req.method === "GET") {
-        const { search } = req.query as {
+        const { search, source } = req.query as {
             search?: string;
+            source?: string
         };
 
+        
         const filterSearchQuery = search?.replace(/[%_]/gi, '');
+        const filterSourceQuery = source?.replace("all", "%");
 
-        if(!filterSearchQuery) return res.status(200).json([]);
+        // if(!filterSearchQuery) return res.status(200).json([]);
 
-        const response = await conn.execute('SELECT * FROM Conversation where title like ? and private = 0', [`%${filterSearchQuery}%`]);
+        const response = await conn.execute('SELECT * FROM Conversation WHERE title LIKE ? AND source LIKE ? and private = 0 ORDER BY views DESC', [`%${filterSearchQuery}%`, filterSourceQuery]);
 
         res.status(200).json(response.rows);
     } else {

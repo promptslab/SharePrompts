@@ -4,7 +4,7 @@ import Script from 'next/script';
 const FAVICON_FOLDER = "/favicons";
 
 export default function Meta({
-  title = `SharePrompts: Share your ChatGPT Prompts with one click.`,
+  title = `SharePrompts: Share your ChatGPT, Bard Prompts with one click.`,
   description = `SharePrompts is a Chrome extension that allows you to share your prompts with one click.`,
   image = `${BASE_URL}/logo.png`,
   imageAlt = "OG image for the SharePrompts application",

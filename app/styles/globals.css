@@ -6,6 +6,10 @@ body{
     @apply bg-primary text-white;
 }
 
+#search-filter:focus{
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 0 var(--tw-ring-color);
+}
+
 .gradient-color{
     background-image: linear-gradient(122deg,#fee4a5 15%,#9ae8b0 65%,#5ba5d0 90%,#9078d0);
     -webkit-mask-image: linear-gradient(122deg, #fee4a5 45%,#9ae8b0 65%,#5ba5d0 90%,#9078d0);

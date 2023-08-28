@@ -20,20 +20,24 @@ export default function Home({
   const [openPopover, setOpenPopover] = useState(false);
 
   const [inpValue, setInpValue] = useState('');
+  const [filterSourceValue, setFilterSourceValue] = useState('all');
   const [convo, setConvo] = useState<ConversationMeta[] | []>(topConvos);
 
   const searchQuery = useDebounce(inpValue, 500);
 
   const getSearchedConvo = useCallback(async () => {
-    const res = await fetch(`/api/search?search=${searchQuery}`)
+    const res = await fetch(`/api/search?search=${searchQuery}&source=${filterSourceValue}`)
     const data = await res.json();
     setConvo(data || [])
-  }, [searchQuery])
+  }, [searchQuery, filterSourceValue])
 
   useEffect(() => {
-    !searchQuery && setConvo(topConvos);
-    searchQuery && getSearchedConvo();
-  }, [searchQuery, getSearchedConvo, topConvos]);
+    if(!searchQuery && filterSourceValue === "all") {
+      setConvo(topConvos);
+      return;
+    }
+    getSearchedConvo();
+  }, [searchQuery, getSearchedConvo, filterSourceValue, topConvos]);
 
   const [domLoaded, setDomLoaded] = useState(false);
   useEffect(() => {setDomLoaded(true)}, [])
@@ -94,6 +98,11 @@ export default function Home({
                 <div className="border-0 flex items-center px-4 py-2 mt-4 mx-auto outline-none gap-2 bg-secondary-2 hover:bg-secondary-1 h-[50px] rounded-full lg:w-[550px] w-9/12">
                   <Search />
                   <input className="h-full outline-none flex-1 bg-transparent" value={inpValue} onChange={(e) => {setInpValue(e.target.value)}}  />
+                  <select className="outline-none bg-transparent border-0" id="search-filter" value={filterSourceValue} onChange={(e) => {setFilterSourceValue(e.target.value)}}>
+                    <option value="all">All</option>
+                    <option value="gpt">ChatGPT</option>
+                    <option value="bard">Bard</option>
+                  </select>
                 </div>
               </div>
               <ul className="mt-8 grid gap-2">

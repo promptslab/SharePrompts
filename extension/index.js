@@ -201,21 +201,17 @@ const sleep = (ms) => {
 let isBardConversationSharing = false;
 
 async function initBard(){
-  console.log("bard")
 
   let inputCnt = document.querySelector(".input-area-container");
   while(inputCnt === null){
-    console.log("while")
     await sleep(500);
     inputCnt = document.querySelector(".input-area-container");
   }
-  console.log(inputCnt)
 
   const btn = createBardShareBtn()
   inputCnt.appendChild(btn);
 
   createTitleModal();
-  console.log(createAvatarImage(document.querySelector("img.gb_n.gbii")))
 
 }
 
@@ -256,18 +252,10 @@ function getConversation () {
     source: "bard",
     items: [],
   };
-  // avatarUrl: "https://www.gstatic.com/lamda/images/logo_single_color_v2_darkmode_eb75673eb30266839da37.svg",
-
-  console.log(conversationContainers)
 
   conversationContainers.forEach(cnt => {
     const humanValue = cnt.querySelector("user-query .query-text");
     const bardResponse = cnt.querySelectorAll("model-response .markdown.markdown-main-panel");
-
-    console.log('human - ', humanValue, humanValue.innerText);
-    console.dir(cnt)
-    console.dir(bardResponse)
-    console.log('bard - ', bardResponse, bardResponse.innerHTML);
 
     const human = {
       from: "human",
@@ -374,7 +362,6 @@ function createBardShareBtn () {
 // starting point
 function main(){
   const url = window.location.href;
-  console.log(url);
 
   if(url.match(/https:\/\/bard\.google\.com.*/))
     initBard();
