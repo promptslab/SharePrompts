@@ -6,9 +6,11 @@ import { nFormatter, timeAgo } from "@/lib/utils";
 import SaveButton from "../banner/save-button";
 import Link from "next/link";
 import { Eye, MessageCircle } from "lucide-react";
+import GPTAvatar from "../shared/icons/GPTAvatar";
+import BardChatAvatar from "../shared/icons/BardChatAvatar";
 
 export default function ConvoCard({ data }: { data: ConversationMeta }) {
-  let { id, title, avatar, creator, views, comments, createdAt } = data;
+  let { id, title, avatar, source, creator, views, comments, createdAt } = data;
   if (avatar?.includes("error")) avatar = "https://avatar.vercel.sh/${id};";
   return (
     <motion.li
@@ -60,6 +62,8 @@ export default function ConvoCard({ data }: { data: ConversationMeta }) {
           </Link>
         </div>
       </div>
+      {source === "gpt" && <GPTAvatar />}
+      {source === "bard" && <BardChatAvatar />}
       <SaveButton id={id} />
     </motion.li>
   );

@@ -6,6 +6,7 @@ const nextConfig = {
     domains: [
       "avatar.vercel.sh",
       "s.gravatar.com",
+      "lh3.google.com",
       "lh3.googleusercontent.com",
       "www.datocms-assets.com",
       "avatars.dicebear.com",

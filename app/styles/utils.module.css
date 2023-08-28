@@ -1,7 +1,7 @@
 .response {
   overflow-x: scroll;
   white-space: pre-wrap;
-  max-width: 300px;
+  max-width: 600px;
   white-space: pre-wrap;
 }
 
@@ -14,7 +14,7 @@
 }
 
 .response p {
-  max-width: 90%;
+  max-width: 100%;
 }
 
 .response ol {

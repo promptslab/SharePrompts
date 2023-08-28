@@ -72,6 +72,7 @@ model Conversation {
   id        String    @id
   title     String
   avatar    String?   @db.LongText
+  source    String    @default("gpt")
   content   Json?
   private   Boolean   @default(false)
   createdAt DateTime  @default(now())

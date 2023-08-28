@@ -141,14 +141,21 @@ async function setRandomKey(
       : "Untitled";
   }
   title = title.replace(/^New chat$/, 'New Prompt');
+  const source = content.source;
+  const newContent = {
+    model: content.model,
+    items: content.items
+  }
 
-  const avatar = content?.avatarUrl || `https://avatar.vercel.sh/${id}`;
+  const avatar = content?.avatarUrl;
   try {
     await prisma.conversation.create({
       data: {
         id,
         title,
-        content,
+        avatar: avatar,
+        source,
+        content: newContent,
         ...(userId && { userId }),
       },
     });

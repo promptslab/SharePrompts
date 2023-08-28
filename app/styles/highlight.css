@@ -1,4 +1,4 @@
-.hljs {
+.hljs, .code-container {
   display: block;
   overflow-x: auto;
   padding: 0.75rem;

@@ -2,10 +2,13 @@ export interface ConversationProps {
   id: string;
   model?: string;
   title?: string;
+  avatar?: string;
+  source: "gpt" | "bard" 
   content: {
     title?: string;
     avatarUrl: string;
     model?: string;
+    source: string;
     items: {
       from: "human" | "gpt";
       value: string;
@@ -19,6 +22,7 @@ export interface ConversationMeta {
   id: string;
   title: string;
   avatar: string;
+  source: "gpt" | "bard";
   creator: {
     name: string;
     image: string;

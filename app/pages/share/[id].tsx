@@ -21,6 +21,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { FADE_IN_ANIMATION_SETTINGS } from "@/lib/constants";
 import Link from "next/link";
 import { BASE_URL } from "@/lib/baseurl";
+import bard_chat_logo from "../../public/bard_chat_logo.svg"
+import BardChatAvatar from "@/components/shared/icons/BardChatAvatar";
 
 interface ChatParams extends ParsedUrlQuery {
   id: string;
@@ -34,6 +36,8 @@ function formatTitle(title: string | undefined): string {
 export default function ChatPage({
   id,
   title,
+  avatar,
+  source,
   content: { avatarUrl, items, model },
   comments: initialComments,
   views,
@@ -71,6 +75,7 @@ export default function ChatPage({
   }, [comment, comments, position]);
 
   if (!items[0]) return null;
+
 
   return (
     <>
@@ -120,7 +125,7 @@ export default function ChatPage({
                 />
               )}
             </AnimatePresence>
-            <div className="relative mx-auto max-w-screen-xl flex items-center justify-between w-full px-4 py-10">
+            <div className="relative mx-auto max-w-screen-xl flex flex-col items-end justify-between w-full px-4 py-10 sm:flex-row sm:items-center ">
               <div className="w-full max-w-screen-md flex flex-1 mx-auto gap-[1.5rem] leading-[1.75] whitespace-pre-wrap">
                 {item.from === "human" ? (
                   <Image
@@ -128,10 +133,10 @@ export default function ChatPage({
                     alt="Avatar of the person chatting"
                     width="28"
                     height="28"
-                    src={avatarUrl || `https://avatar.vercel.sh/${id}`}
+                    src={avatar || avatarUrl || `https://avatar.vercel.sh/${id}`}
                   />
                 ) : (
-                  <GPTAvatar model={model} />
+                  <>{source === "bard" ? <BardChatAvatar /> : <GPTAvatar model={model} />}</>
                 )}
                 <div className="flex flex-col">
                   {item.from === "human" ? (

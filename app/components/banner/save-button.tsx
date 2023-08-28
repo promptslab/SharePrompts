@@ -79,7 +79,7 @@ export default function SaveButton({ id }: { id: string }) {
             disabled={submitting || isValidating}
             className={`${
               submitting || isValidating ? "cursor-not-allowed" : ""
-            } p-2 flex flex-col space-y-1 items-center rounded-md w-12 hover:bg-gray-100 active:bg-gray-200 transition-all`}
+            } p-2 flex flex-col space-y-1 !ml-0 items-center rounded-md w-12 hover:bg-gray-100 active:bg-gray-200 transition-all`}
           >
             {submitting || isValidating ? (
               <LoadingCircle />

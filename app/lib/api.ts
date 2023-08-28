@@ -27,6 +27,7 @@ export async function getConvos({
       id: true,
       title: true,
       avatar: true,
+      source: true,
       creator: {
         select: {
           name: true,
@@ -68,6 +69,8 @@ export async function getConvo(id: string) {
       content: true,
       views: true,
       title: true,
+      avatar: true,
+      source: true,
       comments: {
         select: {
           id: true,
