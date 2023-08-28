@@ -1,9 +1,9 @@
 let isRequesting = false;
 
-// const API_URL = "http://localhost:3000/api/conversations";
-// const PAGE_URL = "http://localhost:3000/share/";
-const API_URL = "https://shareprompts.ai/api/conversations";
-const PAGE_URL = "https://shareprompts.ai/share/";
+const API_URL = "http://localhost:3000/api/conversations";
+const PAGE_URL = "http://localhost:3000/share/";
+// const API_URL = "https://shareprompts.ai/api/conversations";
+// const PAGE_URL = "https://shareprompts.ai/share/";
 
 function init() {
   const shareButton = createBtn();
@@ -124,8 +124,8 @@ function getAvatarImage() {
     const image = document.querySelectorAll("img")[0];
 
     // Set the canvas size to 30x30 pixels
-    canvas.width = 30;
-    canvas.height = 30;
+    canvas.width = 48;
+    canvas.height = 48;
 
     // Draw the img onto the canvas
     canvas.getContext("2d").drawImage(image, 0, 0);
@@ -191,4 +191,198 @@ function createBtnSpd() {
   return button;
 }
 
-init();
+const sleep = (ms) => {
+  return new Promise((resolve) => {
+    return setTimeout(resolve, ms)
+  })
+}
+
+// Initialization for bard
+let isBardConversationSharing = false;
+
+async function initBard(){
+  console.log("bard")
+
+  let inputCnt = document.querySelector(".input-area-container");
+  while(inputCnt === null){
+    console.log("while")
+    await sleep(500);
+    inputCnt = document.querySelector(".input-area-container");
+  }
+  console.log(inputCnt)
+
+  const btn = createBardShareBtn()
+  inputCnt.appendChild(btn);
+
+  createTitleModal();
+  console.log(createAvatarImage(document.querySelector("img.gb_n.gbii")))
+
+}
+
+async function shareConversation() {
+  if(isBardConversationSharing) return;
+  isBardConversationSharing = true;
+
+  document.querySelector(".share-prompt-modal").style.display = "none";
+  document.querySelector(".main-share-btn span.share-prompt-btn-text").innerText = "Sharing....";
+
+  const conversationData = getConversation();
+
+  const res = await fetch(API_URL, {
+    body: JSON.stringify(conversationData),
+    headers: { "Content-Type": "application/json" },
+    method: "POST",
+  }).catch((err) => {
+    isRequesting = false;
+    alert(`Error saving conversation: ${err.message}`);
+  });
+  const { id } = await res.json();
+  const url = PAGE_URL + id;
+
+  
+  document.querySelector(".main-share-btn span.share-prompt-btn-text").innerText = "Share";
+  isBardConversationSharing = false;
+
+  window.open(url, "_blank");
+}
+
+function getConversation () {
+  const conversationContainers = document.querySelectorAll(".conversation-container");
+
+  const conversationData = {
+    title: document.getElementById("prompt-title-inp").value,
+    avatarUrl: document.querySelector("img.gb_n.gbii")?.src ?? null,
+    model: "Bard",
+    source: "bard",
+    items: [],
+  };
+  // avatarUrl: "https://www.gstatic.com/lamda/images/logo_single_color_v2_darkmode_eb75673eb30266839da37.svg",
+
+  console.log(conversationContainers)
+
+  conversationContainers.forEach(cnt => {
+    const humanValue = cnt.querySelector("user-query .query-text");
+    const bardResponse = cnt.querySelectorAll("model-response .markdown.markdown-main-panel");
+
+    console.log('human - ', humanValue, humanValue.innerText);
+    console.dir(cnt)
+    console.dir(bardResponse)
+    console.log('bard - ', bardResponse, bardResponse.innerHTML);
+
+    const human = {
+      from: "human",
+      value: humanValue.innerText
+    }
+    const bard = {
+      from: "gpt",
+      value: bardResponse[bardResponse.length  - 1].outerHTML
+    }
+
+    conversationData.items.push(human);
+    conversationData.items.push(bard);
+  });
+
+  return conversationData
+}
+
+function createTitleModal () {
+  const titleCnt = document.createElement("div");
+
+  titleCnt.classList.add("share-prompt-modal");
+
+  titleCnt.style.position = "absolute";
+  titleCnt.style.zIndex = "1000";
+  titleCnt.style.top = "50%";
+  titleCnt.style.right = "50%";
+  titleCnt.style.transform = "translate(50%, 50%)";
+  titleCnt.style.border = "1px solid #DDD";  
+  titleCnt.style.padding = "1rem";  
+  titleCnt.style.backgroundColor = "#292929";  
+  titleCnt.style.borderRadius = "1rem";  
+  titleCnt.style.display = "none";  
+  titleCnt.style.flexDirection = "column";  
+  titleCnt.style.alignItems = "center";  
+  titleCnt.style.justifyContent = "center";  
+  titleCnt.style.gap = "1rem";  
+
+  const btnStyle = `
+  background-color: #131313;
+  outline: none;
+  border: 1px solid #AAA;
+  color: #FFF;
+  border-radius: 0.5rem;
+  padding: 0.3rem 1rem;
+  cursor: pointer;
+  margin: 0 .5rem;`
+
+  titleCnt.innerHTML = `<input type="text" value="untitled" placeholder="Enter Prompt Title" id="prompt-title-inp" style="
+                            padding: .5rem;
+                            border-radius: .5rem;
+                            outline: none;
+                            border: 1px solid #AAA;
+                            background-color: #131313;
+                            color: #FFF;
+                            font-size: 1.2rem;
+                        ">
+                        <div>
+                          <button class="share-prompt" style="${btnStyle}">Share</button>
+                          <button class="close-prompt" style="${btnStyle}">Cancel</button>
+                        </div>`;
+
+  document.body.appendChild(titleCnt);
+
+  document.querySelector("button.share-prompt").addEventListener("click", shareConversation);
+  document.querySelector("button.close-prompt").addEventListener("click", () => {
+    titleCnt.style.display = "none";
+  });
+
+}
+
+function createBardShareBtn () {
+  const btn = document.createElement("button");
+
+  btn.classList.add("main-share-btn")
+
+  btn.style.display = 'flex';
+  btn.style.alignItems = 'center';
+  btn.style.gap = '.5rem';
+  btn.style.position = "absolute";
+  btn.style.top = "0";
+  btn.style.right = "0";
+  btn.style.margin = "0 20px";
+  btn.style.color = "#FFF";
+  btn.style.backgroundColor = "#131313";
+  btn.style.outline = "none";
+  btn.style.border = "1px solid #AAA";
+  btn.style.borderRadius = "0.5rem";
+  btn.style.padding = "0.3rem 1rem";
+  btn.style.fontSize = "0.9rem";
+  btn.style.cursor = "pointer";
+
+  btn.addEventListener("click", () => {
+    const promptModal = document.querySelector(".share-prompt-modal");
+    promptModal.style.display = "flex";
+  })
+
+  btn.innerHTML = `<svg width="0.75rem" height="0.75rem" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#FFF" viewBox="0 0 24 24" stroke-width="1.5" stroke="black" class="w-3 h-3">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" />
+</svg><span class='share-prompt-btn-text'>Share<span>`
+
+  return btn
+}
+
+// starting point
+function main(){
+  const url = window.location.href;
+  console.log(url);
+
+  if(url.match(/https:\/\/bard\.google\.com.*/))
+    initBard();
+  else if(url.match(/https:\/\/chat\.openai\.com.*/))
+    init();
+}
+
+main();
+// init();
+
+
