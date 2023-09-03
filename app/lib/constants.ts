@@ -15,4 +15,4 @@ export const FRAMER_MOTION_COMMENT_BUBBLE_VARIANTS = {
   show: { translateX: 0, opacity: 1, transition: { type: "spring" } },
 };
 
-export const PAGINATION_LIMIT = 50;
+export const PAGINATION_LIMIT = 10;

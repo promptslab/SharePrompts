@@ -5,10 +5,13 @@ import Layout from "@/components/layout";
 import ConvoCard from "@/components/explore/convo-card";
 import { ConversationMeta } from "@/lib/types";
 import { getConvos } from "@/lib/api";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Discord from "@/components/shared/icons/discord";
 import useDebounce from "@/lib/hooks/use-debounce";
 import { Search } from "lucide-react";
+import Pagination, { setPage } from "@/components/explore/pagination";
+import { NextRouter, useRouter } from "next/router";
+import { LoadingCircle } from "@/components/shared/icons";
 
 export default function Home({
   totalConvos,
@@ -17,27 +20,49 @@ export default function Home({
   totalConvos: number;
   topConvos: ConversationMeta[];
 }) {
-  const [openPopover, setOpenPopover] = useState(false);
+
+  const router = useRouter();
+  const currentPage: number =
+    router.query.page && typeof router.query.page === "string"
+      ? parseInt(router.query.page)
+      : 1;
 
   const [inpValue, setInpValue] = useState('');
   const [filterSourceValue, setFilterSourceValue] = useState('all');
   const [convo, setConvo] = useState<ConversationMeta[] | []>(topConvos);
+  const [totalConversation, setTotalConversation] = useState(totalConvos);
+  const [searching, setSearching] = useState(false);
 
   const searchQuery = useDebounce(inpValue, 500);
+  const prevSearch = useRef('')
 
   const getSearchedConvo = useCallback(async () => {
-    const res = await fetch(`/api/search?search=${searchQuery}&source=${filterSourceValue}`)
+    setSearching(true);
+    prevSearch.current = searchQuery;
+    const res = await fetch(`/api/search?search=${searchQuery}&source=${filterSourceValue}&page=${currentPage}`);
     const data = await res.json();
+    setSearching(false);
+    console.log(data)
     setConvo(data || [])
-  }, [searchQuery, filterSourceValue])
+
+    const countRes = await fetch(`/api/search/count?search=${searchQuery}&source=${filterSourceValue}`);
+    const countData = await countRes.json();
+    setTotalConversation(countData?.at(0).count)
+  }, [searchQuery, filterSourceValue, currentPage])
 
   useEffect(() => {
-    if(!searchQuery && filterSourceValue === "all") {
-      setConvo(topConvos);
+    if(prevSearch.current !== searchQuery && currentPage !== 1){
+      setPage(router, 1);
       return;
+      // console.log('modified')
     }
     getSearchedConvo();
-  }, [searchQuery, getSearchedConvo, filterSourceValue, topConvos]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getSearchedConvo, searchQuery]);
+
+  useEffect(() => {
+    console.log(topConvos);
+  }, [topConvos])
 
   const [domLoaded, setDomLoaded] = useState(false);
   useEffect(() => {setDomLoaded(true)}, [])
@@ -94,7 +119,7 @@ export default function Home({
               <h2 className="text-3xl sm:text-4xl text-center font-semibold font-display">
                 Browse Prompts
               </h2>
-              <div className="flex items-center justify-center">
+              <div className="flex items-center justify-center relative">
                 <div className="border-0 flex items-center px-4 py-2 mt-4 mx-auto outline-none gap-2 bg-secondary-2 hover:bg-secondary-1 h-[50px] rounded-full lg:w-[550px] w-9/12">
                   <Search />
                   <input className="h-full outline-none flex-1 bg-transparent" value={inpValue} onChange={(e) => {setInpValue(e.target.value)}}  />
@@ -103,6 +128,13 @@ export default function Home({
                     <option value="gpt">ChatGPT</option>
                     <option value="bard">Bard</option>
                   </select>
+                  {
+                    searching && 
+                    <div className=" absolute top-full left-0 flex items-center justify-center gap-2">
+                      <LoadingCircle />
+                      <span>Loading</span>
+                    </div>
+                  }
                 </div>
               </div>
               <ul className="mt-8 grid gap-2">
@@ -111,6 +143,7 @@ export default function Home({
                 ))}
               </ul>
             </div>
+            <Pagination count={totalConversation} />
           </div>
           <div className="h-[100px] bg-gray-50 flex flex-col items-center justify-center w-full">
             <a

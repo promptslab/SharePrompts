@@ -12,7 +12,9 @@ export default async function handler(req: NextRequest) {
     return new Response("Invalid ID", { status: 400 });
   }
   if(req.method === "GET"){
-    const response = await conn.execute("SELECT views FROM Conversation WHERE id = ?", [id])
+    console.log(id)
+    const response = await conn.execute("SELECT views FROM Conversation WHERE id = ?", [id]);
+    console.log(response)
     return new Response(JSON.stringify(response), {
       status: 200,
       headers: {

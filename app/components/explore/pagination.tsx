@@ -6,7 +6,7 @@ import useSWR from "swr";
 import { fetcher } from "@/lib/utils";
 import { useDebounce } from "use-debounce";
 
-const setPage = (router: NextRouter, page: number) => {
+export const setPage = (router: NextRouter, page: number) => {
   router.replace(
     {
       query: {
@@ -28,8 +28,8 @@ const Button = ({ value }: { value: number }) => {
   return (
     <button
       className={`${
-        value === currentPage ? "text-accent" : "text-primary"
-      } font-semibold rounded-md min-w-[1.5rem] p-1 bg-white hover:bg-gray-100 transition-all`}
+        value === currentPage ? "bg-primary text-white" : "text-primary"
+      } font-semibold rounded-md min-w-[1.5rem] p-1 hover:bg-primary hover:text-white transition-all`}
       onClick={() => setPage(router, value)}
     >
       {value}
@@ -38,22 +38,27 @@ const Button = ({ value }: { value: number }) => {
 };
 
 const Divider = () => {
-  return <div className="w-6 border border-gray-400 rounded-lg" />;
+  return (
+  <div className="flex items-center justify-center gap-1">
+    <div className="w-1 h-1 rounded-full bg-primary" />
+    <div className="w-1 h-1 rounded-full bg-primary" />
+    <div className="w-1 h-1 rounded-full bg-primary" />
+  </div>)
 };
 
-export default function Pagination({ count: initialCount }: { count: number }) {
+export default function Pagination({ count }: { count: number }) {
   const router = useRouter();
   const { search } = router.query as { search?: string };
   const [debouncedSearch] = useDebounce(search, 500);
-  const { data: count } = useSWR<number>(
-    `/api/conversations/count${
-      debouncedSearch ? `?search=${debouncedSearch}` : ""
-    }`,
-    fetcher,
-    {
-      fallbackData: initialCount,
-    }
-  ) as { data: number };
+  // const { data: count } = useSWR<number>(
+  //   `/api/conversations/count${
+  //     debouncedSearch ? `?search=${debouncedSearch}` : ""
+  //   }`,
+  //   fetcher,
+  //   {
+  //     fallbackData: initialCount,
+  //   }
+  // ) as { data: number };
 
   const paginatedCount = Math.ceil(count / PAGINATION_LIMIT);
   const paginationArray = !isNaN(paginatedCount)
@@ -77,7 +82,7 @@ export default function Pagination({ count: initialCount }: { count: number }) {
         {currentPage > 1 && paginatedCount > 5 && (
           <button
             onClick={() => setPage(router, currentPage - 1)}
-            className="flex items-center justify-center rounded-md min-w-[1.5rem] p-1 bg-white hover:bg-secondary-2 hover:text-accent transition-all"
+            className="flex items-center justify-center rounded-md min-w-[1.5rem] p-1 bg-primary hover:bg-accent transition-all"
           >
             <ChevronLeft className="h-4 w-4" />
           </button>
@@ -99,15 +104,15 @@ export default function Pagination({ count: initialCount }: { count: number }) {
               <Button value={2} />
               <Button value={3} />
               <Divider />
-              <Button value={paginationArray.length - 1} />
+              <Button value={paginationArray.length} />
             </>
           ) : (
             <>
               <Button value={1} />
               <Divider />
-              <Button value={paginationArray.length - 3} />
               <Button value={paginationArray.length - 2} />
               <Button value={paginationArray.length - 1} />
+              <Button value={paginationArray.length} />
             </>
           )
         ) : (
@@ -116,7 +121,7 @@ export default function Pagination({ count: initialCount }: { count: number }) {
         {currentPage < paginatedCount && paginatedCount > 5 && (
           <button
             onClick={() => setPage(router, currentPage + 1)}
-            className="flex items-center justify-center rounded-md min-w-[1.5rem] p-1 bg-white hover:bg-gray-100 transition-all"
+            className="flex items-center justify-center rounded-md min-w-[1.5rem] p-1 bg-primary hover:bg-accent transition-all"
           >
             <ChevronRight className="h-4 w-4" />
           </button>

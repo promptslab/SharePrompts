@@ -99,7 +99,7 @@ export default function ChatPage({
           <h1 className="text-2xl">SharePrompts</h1>
         </div>
       </Link>
-      <div ref={componentToPrintRef} className="flex flex-col items-center p-2 pb-20 lg:pb-2 min-h-screen w-11/12 lg:w-9/12 mx-auto">
+      <div ref={componentToPrintRef} className="flex flex-col items-center p-2 pb-20 lg:pb-2 min-h-screen w-11/12 xl:w-9/12 mx-auto">
         <div className="prompt-title-cnt text-white flex justify-center items-center gap-2 border-b border-t border-secondary-2 text-sm w-fit mx-auto mb-2 mt-4 p-2 rounded-md"><span className="prompt-title">{title?.replace(/\.$/gi, '')}</span></div>
         {model ? (
           <div className="bg-gray-100 dark:bg-[#434654] w-full text-center text-gray-500 dark:text-gray-300 p-3">
@@ -138,7 +138,7 @@ export default function ChatPage({
                 ) : (
                   <>{source === "bard" ? <BardChatAvatar /> : <GPTAvatar model={model} />}</>
                 )}
-                <div className="flex flex-col">
+                <div className="flex flex-col flex-1 overflow-hidden">
                   {item.from === "human" ? (
                     <p className="pb-2 whitespace-prewrap">{item.value}</p>
                   ) : (
