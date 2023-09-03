@@ -9,9 +9,23 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Discord from "@/components/shared/icons/discord";
 import useDebounce from "@/lib/hooks/use-debounce";
 import { Search } from "lucide-react";
-import Pagination, { setPage } from "@/components/explore/pagination";
+import Pagination from "@/components/explore/pagination";
 import { NextRouter, useRouter } from "next/router";
 import { LoadingCircle } from "@/components/shared/icons";
+
+export const setSearch = (router: NextRouter, search: string) => {
+  router.replace(
+    {
+      query: {
+        ...(search && {
+          search
+        }),
+      },
+    },
+    undefined,
+    { shallow: true }
+  );
+};
 
 export default function Home({
   totalConvos,
@@ -26,43 +40,46 @@ export default function Home({
     router.query.page && typeof router.query.page === "string"
       ? parseInt(router.query.page)
       : 1;
+  const searchValue: string = router.query.search as string || ""
 
-  const [inpValue, setInpValue] = useState('');
+  const [inpValue, setInpValue] = useState(searchValue);
   const [filterSourceValue, setFilterSourceValue] = useState('all');
   const [convo, setConvo] = useState<ConversationMeta[] | []>(topConvos);
   const [totalConversation, setTotalConversation] = useState(totalConvos);
   const [searching, setSearching] = useState(false);
 
   const searchQuery = useDebounce(inpValue, 500);
-  const prevSearch = useRef('')
+  const isFirst = useRef(0);
 
   const getSearchedConvo = useCallback(async () => {
     setSearching(true);
-    prevSearch.current = searchQuery;
-    const res = await fetch(`/api/search?search=${searchQuery}&source=${filterSourceValue}&page=${currentPage}`);
+    // prevSearch.current = searchQuery;
+    console.log(searchValue)
+    const res = await fetch(`/api/search?search=${searchValue}&source=${filterSourceValue}&page=${currentPage}`);
     const data = await res.json();
     setSearching(false);
     console.log(data)
     setConvo(data || [])
 
-    const countRes = await fetch(`/api/search/count?search=${searchQuery}&source=${filterSourceValue}`);
+    const countRes = await fetch(`/api/search/count?search=${searchValue}&source=${filterSourceValue}`);
     const countData = await countRes.json();
     setTotalConversation(countData?.at(0).count)
-  }, [searchQuery, filterSourceValue, currentPage])
+  }, [searchValue, filterSourceValue, currentPage])
 
   useEffect(() => {
-    if(prevSearch.current !== searchQuery && currentPage !== 1){
-      setPage(router, 1);
-      return;
-      // console.log('modified')
-    }
     getSearchedConvo();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [getSearchedConvo, searchQuery]);
+  }, [getSearchedConvo]);
 
   useEffect(() => {
-    console.log(topConvos);
-  }, [topConvos])
+
+    if(searchQuery === "" && isFirst.current === 0){
+      isFirst.current += 1;
+      return;
+    }
+    console.log("set")
+    setSearch(router, searchQuery)
+  }, [searchQuery])
 
   const [domLoaded, setDomLoaded] = useState(false);
   useEffect(() => {setDomLoaded(true)}, [])

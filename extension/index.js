@@ -47,6 +47,7 @@ function init() {
       "flex flex-col text-sm dark:bg-gray-800"
     )[0];
 
+
     // show the model for chatgpt+ users
     let model;
 
@@ -78,7 +79,10 @@ function init() {
             value: warning.innerText.split("\n")[0],
           });
         } else {
+          console.log(node);
           const text = node.querySelector(".whitespace-pre-wrap");
+          console.log(text)
+          if(!text) continue;
           conversationData.items.push({
             from: "human",
             value: text.textContent,
