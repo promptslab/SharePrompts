@@ -110,7 +110,6 @@ export default async function handler(
         return res.status(429).json({ error: "Don't DDoS me pls 🥺" });
       }
       const session = await getSessionFromServer(req, res);
-      console.log("session data: ", session);
       const content = JSON.parse(JSON.stringify(req.body));
       for (let i = 0; i < content.items.length; i++) {
         content.items[i].value = sanitizeHtml(content.items[i].value, options);

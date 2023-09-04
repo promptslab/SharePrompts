@@ -2,8 +2,6 @@ import { ChevronRight, ChevronLeft } from "lucide-react";
 import { useRouter, NextRouter } from "next/router";
 import { PAGINATION_LIMIT } from "@/lib/constants";
 import useScroll from "@/lib/hooks/use-scroll";
-import useSWR from "swr";
-import { fetcher } from "@/lib/utils";
 import { useDebounce } from "use-debounce";
 
 export const setPage = (router: NextRouter, page: number) => {
@@ -28,8 +26,8 @@ const Button = ({ value }: { value: number }) => {
   return (
     <button
       className={`${
-        value === currentPage ? "bg-primary text-white" : "text-primary"
-      } font-semibold rounded-md min-w-[1.5rem] p-1 hover:bg-primary hover:text-white transition-all`}
+        value === currentPage ? "bg-secondary-2 text-white" : "text-white/80"
+      } font-semibold rounded-md min-w-[1.5rem] p-1 hover:bg-secondary-1 hover:text-white transition-all`}
       onClick={() => setPage(router, value)}
     >
       {value}
@@ -40,25 +38,15 @@ const Button = ({ value }: { value: number }) => {
 const Divider = () => {
   return (
   <div className="flex items-center justify-center gap-1">
-    <div className="w-1 h-1 rounded-full bg-primary" />
-    <div className="w-1 h-1 rounded-full bg-primary" />
-    <div className="w-1 h-1 rounded-full bg-primary" />
+    <div className="w-1 h-1 rounded-full bg-white" />
+    <div className="w-1 h-1 rounded-full bg-white" />
+    <div className="w-1 h-1 rounded-full bg-white" />
   </div>)
 };
 
 export default function Pagination({ count }: { count: number }) {
   const router = useRouter();
   const { search } = router.query as { search?: string };
-  const [debouncedSearch] = useDebounce(search, 500);
-  // const { data: count } = useSWR<number>(
-  //   `/api/conversations/count${
-  //     debouncedSearch ? `?search=${debouncedSearch}` : ""
-  //   }`,
-  //   fetcher,
-  //   {
-  //     fallbackData: initialCount,
-  //   }
-  // ) as { data: number };
 
   const paginatedCount = Math.ceil(count / PAGINATION_LIMIT);
   const paginationArray = !isNaN(paginatedCount)
@@ -76,7 +64,7 @@ export default function Pagination({ count }: { count: number }) {
     <div
       className={`${
         show ? "bottom-5" : "-bottom-20"
-      } sticky bottom-5 mt-2 rounded-md border border-gray-100 bg-white p-4 shadow-lg h-20 flex flex-col justify-center items-center space-y-2 transition-all`}
+      } sticky bottom-5 mt-2 rounded-md bg-secondary-1d text-white/80 p-4 shadow-lg h-20 flex flex-col justify-center items-center space-y-2 transition-all`}
     >
       <div className="flex space-x-2 items-center">
         {currentPage > 1 && paginatedCount > 5 && (
@@ -127,7 +115,7 @@ export default function Pagination({ count }: { count: number }) {
           </button>
         )}
       </div>
-      <p className="text-primary text-sm">
+      <p className="text-white/80 text-sm">
         Showing {(currentPage - 1) * PAGINATION_LIMIT + 1} -{" "}
         {Math.min(currentPage * PAGINATION_LIMIT, count)} of{" "}
         {Intl.NumberFormat("en-us").format(count)} conversations

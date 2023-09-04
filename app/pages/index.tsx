@@ -53,12 +53,9 @@ export default function Home({
 
   const getSearchedConvo = useCallback(async () => {
     setSearching(true);
-    // prevSearch.current = searchQuery;
-    console.log(searchValue)
     const res = await fetch(`/api/search?search=${searchValue}&source=${filterSourceValue}&page=${currentPage}`);
     const data = await res.json();
     setSearching(false);
-    console.log(data)
     setConvo(data || [])
 
     const countRes = await fetch(`/api/search/count?search=${searchValue}&source=${filterSourceValue}`);
@@ -77,8 +74,8 @@ export default function Home({
       isFirst.current += 1;
       return;
     }
-    console.log("set")
     setSearch(router, searchQuery)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery])
 
   const [domLoaded, setDomLoaded] = useState(false);
