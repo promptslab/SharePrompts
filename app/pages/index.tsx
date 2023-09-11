@@ -129,15 +129,18 @@ export default function Home({
                 </div>
               </div>
             </div>
+            <div className="mt-4">
+              <iframe className="sm:w-[560px] sm:h-[315px]" src="https://www.youtube.com/embed/Xl1KdBE7mVg?si=NMhq6QzVIcR-zWV1" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+            </div>
             <div className="py-4 px-2 sm:max-w-screen-lg w-full my-2">
               <h2 className="text-3xl sm:text-4xl text-center font-semibold font-display">
                 Browse Prompts
               </h2>
               <div className="flex items-center justify-center relative">
-                <div className="border-0 flex items-center px-4 py-2 mt-4 mx-auto outline-none gap-2 bg-secondary-2 hover:bg-secondary-1 h-[50px] rounded-full lg:w-[550px] w-9/12">
+                <div className="border-0 flex items-center px-4 py-2 mt-4 mx-auto outline-none gap-2 bg-secondary-2 hover:bg-secondary-1 h-[50px] rounded-full w-11/12 lg:w-[550px]">
                   <Search />
                   <input className="h-full outline-none flex-1 bg-transparent" value={inpValue} onChange={(e) => {setInpValue(e.target.value)}}  />
-                  <select className="outline-none bg-transparent border-0" id="search-filter" value={filterSourceValue} onChange={(e) => {setFilterSourceValue(e.target.value)}}>
+                  <select className="outline-none bg-transparent border-0 w-[80px] md:w-auto" id="search-filter" value={filterSourceValue} onChange={(e) => {setFilterSourceValue(e.target.value)}}>
                     <option value="all">All</option>
                     <option value="gpt">ChatGPT</option>
                     <option value="bard">Bard</option>
